@@ -10,6 +10,7 @@ import (
 	"os"
 	"github.com/go-template/cli/dotted/exec/cli"
 	_ "github.com/go-template/cli/dotted/exec/host"
+	_ "github.com/go-template/cli/dotted/exec/port"
 )
 
 func main() {
