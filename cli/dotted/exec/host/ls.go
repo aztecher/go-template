@@ -10,6 +10,7 @@ import (
 	"context"
 	"flag"
 	"github.com/go-template/cli/dotted/exec/cli"
+	// "github.com/go-template/cli/dotted/host"
 )
 
 type ls struct {
@@ -31,5 +32,7 @@ func (cmd *ls) Process(ctx context.Context) error {
 
 func (cmd *ls) Run(ctx context.Context, f *flag.FlagSet) error {
 	var err error
+
+	// h := host.NewManager()
 	return err
 }
