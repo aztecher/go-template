@@ -9,6 +9,7 @@ package main
 import (
 	"os"
 	"github.com/go-template/cli/dotted/exec/cli"
+	_ "github.com/go-template/cli/dotted/exec/host"
 )
 
 func main() {

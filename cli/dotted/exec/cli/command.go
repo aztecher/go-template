@@ -27,7 +27,7 @@ type HasFlags interface {
 type Command interface {
 	HasFlags
 
-	Run(ctx context.Context) error
+	Run(ctx context.Context, f *flag.FlagSet) error
 }
 
 func generalHelp(w io.Writer, filter string) {
@@ -69,10 +69,7 @@ func Run(args []string) int {
 		return rc
 	}
 
-	name, ok := aliases[args[0]]
-	if !ok {
-		name = args[0]
-	}
+	name := args[0]
 	cmd, ok := commands[name]
 	if !ok {
 		hwrc(name)
@@ -96,7 +93,7 @@ func Run(args []string) int {
 		goto error
 	}
 
-	if err = cmd.Run(ctx); err != nil {
+	if err = cmd.Run(ctx, fs); err != nil {
 		goto error
 	}
 
