@@ -7,8 +7,13 @@ A template that is useful for implementing a command line tool that takes only o
 ```
 # exc [subcmd]
 
-$ exc           -- print help
-$ exc host.ls   -- print "exc host list"
-$ exc port.ls   -- print "exc port list"
+$ exc host.ls
+$ exc port.ls
+
+# output option
+$ -json/--json -- json format
+$ -xml/--xml   -- xml format
 
 ```
+
+
