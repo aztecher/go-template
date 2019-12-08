@@ -14,6 +14,9 @@ import (
 
 type OutputFlag struct {
 	common
+
+	JSON bool
+	XML  bool
 }
 
 func NewOutputFlag() *OutputFlag {
@@ -22,13 +25,15 @@ func NewOutputFlag() *OutputFlag {
 
 func (flag *OutputFlag) Register(ctx context.Context, f *flag.FlagSet) {
 	flag.RegisterOnce(func() {
-		// general registration
+		// general output registration
+		f.BoolVar(&flag.JSON, "json", false, "Output JSON format")
+		f.BoolVar(&flag.XML, "xml", false, "Output XML format")
 	})
 }
 
 func (flag *OutputFlag) Process(ctx context.Context) error {
 	return flag.ProcessOnce(func() error {
-		// general processing
+		// general output processing
 		return nil
 	})
 }
