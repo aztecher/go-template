@@ -8,6 +8,7 @@ package host
 
 import (
 	"context"
+	"fmt"
 	"flag"
 	"github.com/go-template/cli/dotted/exec/cli"
 	"github.com/go-template/cli/dotted/exec/flags"
@@ -44,9 +45,15 @@ func (cmd *ls) Process(ctx context.Context) error {
 }
 
 func (cmd *ls) Run(ctx context.Context, f *flag.FlagSet) error {
-	var err error
 	// client -> manager -> process
+	if cmd.JSON {
+		fmt.Printf("general output flag related 'json' is passed\n")
+	}
+	if cmd.XML {
+		fmt.Printf("general output flag related 'xml' is passed\n")
+	}
+	fmt.Printf("host.ls is passed\n")
 
 	// h := host.NewManager()
-	return err
+	return nil
 }
