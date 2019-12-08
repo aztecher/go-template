@@ -10,9 +10,12 @@ import (
 	"context"
 	"flag"
 	"github.com/go-template/cli/dotted/exec/cli"
+	"github.com/go-template/cli/dotted/exec/flags"
 )
 
 type ls struct {
+	*flags.ClientFlag
+	*flags.OutputFlag
 
 	feature string
 }
@@ -22,6 +25,7 @@ func init() {
 }
 
 func (cmd *ls) Register(ctx context.Context, f *flag.FlagSet) {
+	cmd.ClientFlag = flags.NewClientFlag()
 }
 
 func (cmd *ls) Process(ctx context.Context) error {
