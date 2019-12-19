@@ -1,0 +1,19 @@
+# README
+
+RepositoryからDBに対するQueryを差し替え可能で、且つRepositoryの満たすべき抽象化を満たすようなコード例。
+
+Connectableにするためには適当にConnection関数をラップするだけでよく、おそらく一般的にConnectを貼るときに帰ってくる
+Connection関係のObjectを返り値として与えてあげればいいだけ。
+
+RepositoryはRepositoryたる所以の関数であるRun内部でConnectableオブジェクトを生成し、それを利用する形で
+関数の引数として渡ってくる関数に適用する。
+
+こうすることで、Repositoryと切り離された領域からRepositoryの振る舞いを切り替えられる。
+気持ちとしては単純なAggregateに関してはRepositoryにもたせてしまってもいいが、
+実装をRepositoryに与えると当然ながらそれより上の層では自由度が減る。
+
+そのためこのような処置を取る例を考えてみた。
+これと同じような考え方のものとして、CQRSパターンがあるようだ。
+それに比べて、こちらがいい感じのメリットが出せるかはまだ考えきれていない。
+
+
