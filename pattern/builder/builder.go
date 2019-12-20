@@ -5,7 +5,7 @@ import (
 )
 
 type Continuation interface {
-	Continue(f func(structure *Structure) Continuation) Continuation
+	Continue(f func(structure *Structure) *Structure) Continuation
 	End() *Structure
 }
 
@@ -14,8 +14,9 @@ type Structure struct {
 	Field string
 }
 
-func (structure *Structure) Continue (f func(structure *Structure) Continuation) Continuation {
-	return f(structure)
+func (structure *Structure) Continue (f func(structure *Structure) *Structure) Continuation {
+	str := f(structure)
+	return (interface{}(str)).(Continuation)
 }
 
 func (structure *Structure) End () *Structure {
@@ -45,15 +46,12 @@ func main() {
 	structure := NewStructure().SetId(1).SetField("field").Build()
 	fmt.Printf("%v\n", structure)
 
-	// なんかできた
-	// upcast, downcastはinterface実装側で持たせたい気持ちがある
-	// もうちょっとなんか考えられそう
-	strcont := NewStructure().Continue(func (structure *Structure) Continuation {
-		structure.SetId(1)
-		return (interface{}(structure)).(Continuation)
-	}).Continue(func (structure *Structure) Continuation {
-		structure.SetField("field")
-		return (interface{}(structure)).(Continuation)
+	// 引数に与える関数の引数と返り値が同一型を取れるように変更でき、
+	// かつコード側の責務が減った(builderのsetter呼びに近い形になった)
+	strcont := NewStructure().Continue(func (structure *Structure) *Structure{
+		return structure.SetId(1)
+	}).Continue(func (structure *Structure) *Structure {
+		return structure.SetField("field")
 	}).End()
 
 	fmt.Printf("%v\n", strcont)
