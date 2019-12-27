@@ -54,6 +54,7 @@ func generalHelp(w io.Writer, filter string) {
 }
 
 func Run(args []string) int {
+	// help -> Stdout, other -> Stderr
 	hw := os.Stderr
 	rc := 1
 	hwrc := func(arg string) {
@@ -69,6 +70,7 @@ func Run(args []string) int {
 		return rc
 	}
 
+	// subcommand
 	name := args[0]
 	cmd, ok := commands[name]
 	if !ok {
