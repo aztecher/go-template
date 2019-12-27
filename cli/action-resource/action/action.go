@@ -14,16 +14,6 @@ func (am *ActionMap) Register(name string, a Action) {
 	*am = append(*am, na)
 }
 
-func (am *ActionMap) Search(args []string) (Action, bool) {
-	for _, namedAction := range *am {
-		_, ok := namedAction.search(args)
-		if ok {
-			return namedAction.Action, ok
-		}
-	}
-	return nil, false
-}
-
 func (am *ActionMap) SearchAndConsumeArgument(args []string) (Action, []string, bool) {
 	for _, namedAction := range *am {
 		_, cargs, ok := namedAction.searchAndConsumeArgument(args)
@@ -37,15 +27,6 @@ func (am *ActionMap) SearchAndConsumeArgument(args []string) (Action, []string, 
 type NamedAction struct {
 	Name   string
 	Action Action
-}
-
-func (na *NamedAction) search(args []string) (string, bool) {
-	for _, arg := range args {
-		if arg == na.Name {
-			return na.Name, true
-		}
-	}
-	return "", false
 }
 
 func (na *NamedAction) searchAndConsumeArgument(args []string) (string, []string, bool) {

@@ -13,16 +13,6 @@ func (rm *ResourceMap) Register(name string, r Resource) {
 	*rm = append(*rm, nr)
 }
 
-func (rm *ResourceMap) Search(args []string) (Resource, bool) {
-	for _, namedResource := range *rm {
-		_, ok := namedResource.search(args)
-		if ok {
-			return namedResource.Resource, ok
-		}
-	}
-	return nil, false
-}
-
 func (rm *ResourceMap) SearchAndConsumeArgument(args []string) (Resource, []string, bool) {
 	for _, namedResource := range *rm {
 		_, cargs, ok := namedResource.searchAndConsumeArgument(args)
@@ -37,15 +27,6 @@ func (rm *ResourceMap) SearchAndConsumeArgument(args []string) (Resource, []stri
 type NamedResource struct {
 	Name string
 	Resource Resource
-}
-
-func (nr *NamedResource) search(args []string) (string, bool) {
-	for _, arg := range args {
-		if arg == nr.Name {
-			return nr.Name, true
-		}
-	}
-	return "", false
 }
 
 func (nr *NamedResource) searchAndConsumeArgument(args []string) (string, []string, bool) {

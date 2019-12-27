@@ -31,7 +31,6 @@ func Run(args[]string) int{
 	// action flag assign
 	action.Register(fs)
 
-	// resource, ok := resources.Search(args)
 	resource, cargs, ok := resources.SearchAndConsumeArgument(cargs)
 	if !ok {
 		// you can use action level flag usage
@@ -43,7 +42,7 @@ func Run(args[]string) int{
 	resource.Register(fs)
 
 	// register
-	if err := fs.Parse(args[2:]); err != nil {
+	if err := fs.Parse(cargs); err != nil {
 		fmt.Printf("parse error!!!!!!\n")
 		return exitHandle.ExitCode
 	}
