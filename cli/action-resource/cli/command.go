@@ -21,7 +21,7 @@ func Run(args[]string) int{
 	actions := action.Actions()
 	resources := resource.Resources()
 
-	action, ok := actions.Search(args)
+	action, cargs, ok := actions.SearchAndConsumeArgument(args)
 	if !ok {
 		// you can use global level flag usage
 		fmt.Printf("can't match action name, usage here\n")
@@ -31,7 +31,8 @@ func Run(args[]string) int{
 	// action flag assign
 	action.Register(fs)
 
-	resource, ok := resources.Search(args)
+	// resource, ok := resources.Search(args)
+	resource, cargs, ok := resources.SearchAndConsumeArgument(cargs)
 	if !ok {
 		// you can use action level flag usage
 		fmt.Printf("can't match resource name, usage here\n")
@@ -41,14 +42,14 @@ func Run(args[]string) int{
 	// resource flag assign
 	resource.Register(fs)
 
-	fmt.Printf("%+v\n", action)
-	fmt.Printf("%+v\n", resource)
-
 	// register
-	if err := fs.Parse(args); err != nil {
+	if err := fs.Parse(args[2:]); err != nil {
 		fmt.Printf("parse error!!!!!!\n")
 		return exitHandle.ExitCode
 	}
 	fmt.Printf("success parse!!!!!\n")
+	fmt.Printf("%+v\n", action)
+	fmt.Printf("%+v\n", resource)
+	fmt.Printf("cargs: %v", cargs)
 	return exitHandle.ExitCode
 }

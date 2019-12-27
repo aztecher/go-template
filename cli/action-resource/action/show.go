@@ -13,6 +13,8 @@ func init() {
 
 type show struct {
 	*flags.FlagCommon
+
+	JSON bool
 }
 
 func (s *show) Register(f *flag.FlagSet) {
@@ -21,6 +23,9 @@ func (s *show) Register(f *flag.FlagSet) {
 		// register flag of show action
 		fmt.Printf("show flag register\n")
 	})
+
+	f.BoolVar(&s.JSON, "j", false, "Output JSON format")
+	f.BoolVar(&s.JSON, "json", false, "Output JSON format")
 }
 
 func (s *show) Process(resource *resource.Resource) {

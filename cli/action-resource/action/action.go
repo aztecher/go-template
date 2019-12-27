@@ -24,6 +24,16 @@ func (am *ActionMap) Search(args []string) (Action, bool) {
 	return nil, false
 }
 
+func (am *ActionMap) SearchAndConsumeArgument(args []string) (Action, []string, bool) {
+	for _, namedAction := range *am {
+		_, cargs, ok := namedAction.searchAndConsumeArgument(args)
+		if ok {
+			return namedAction.Action, cargs, ok
+		}
+	}
+	return nil, args, false
+}
+
 type NamedAction struct {
 	Name   string
 	Action Action
@@ -36,6 +46,21 @@ func (na *NamedAction) search(args []string) (string, bool) {
 		}
 	}
 	return "", false
+}
+
+func (na *NamedAction) searchAndConsumeArgument(args []string) (string, []string, bool) {
+	result_name := ""
+	result_ok := false
+	consumed_args := []string{}
+	for _, arg := range args {
+		if arg == na.Name {
+			result_name = na.Name
+			result_ok   = true
+			continue
+		}
+		consumed_args = append(consumed_args, arg)
+	}
+	return result_name, consumed_args, result_ok
 }
 
 func Register(name string, a Action) {
