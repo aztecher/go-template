@@ -14,27 +14,36 @@ type Command interface {
 
 func Run(args[]string) int{
 	exitHandle := exitcode.NewHandle().DefaultErr()
+	fs := flag.NewFlagSet("", flag.ContinueOnError)
+
+	// global flag assingn
 
 	actions := action.Actions()
 	resources := resource.Resources()
 
 	action, ok := actions.Search(args)
 	if !ok {
+		// you can use global level flag usage
 		fmt.Printf("can't match action name, usage here\n")
 		return exitHandle.ExitCode
 	}
 
+	// action flag assign
+	action.Register(fs)
+
 	resource, ok := resources.Search(args)
 	if !ok {
+		// you can use action level flag usage
 		fmt.Printf("can't match resource name, usage here\n")
 		return exitHandle.ExitCode
 	}
 
+	// resource flag assign
+	resource.Register(fs)
+
 	fmt.Printf("%+v\n", action)
 	fmt.Printf("%+v\n", resource)
 
-	// subcommand
-	fs := flag.NewFlagSet("", flag.ContinueOnError)
 	// register
 	if err := fs.Parse(args); err != nil {
 		fmt.Printf("parse error!!!!!!\n")
