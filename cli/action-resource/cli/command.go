@@ -17,6 +17,8 @@ func Run(args[]string) int{
 	fs := flag.NewFlagSet("", flag.ContinueOnError)
 
 	// global flag assingn
+	baseUsage := BaseUsage()
+	baseUsage.Register(fs)
 
 	actions := action.Actions()
 	resources := resource.Resources()
@@ -24,7 +26,8 @@ func Run(args[]string) int{
 	action, cargs, ok := actions.SearchAndConsumeArgument(args)
 	if !ok {
 		// you can use global level flag usage
-		fmt.Printf("can't match action name, usage here\n")
+		baseUsage.Usage(&actions, &resources, fs)
+		fs.Usage()
 		return exitHandle.ExitCode
 	}
 
@@ -49,6 +52,8 @@ func Run(args[]string) int{
 	fmt.Printf("success parse!!!!!\n")
 	fmt.Printf("%+v\n", action)
 	fmt.Printf("%+v\n", resource)
-	fmt.Printf("cargs: %v", cargs)
+	fmt.Printf("cargs: %v\n", cargs)
+
+	action.Process(&resource)
 	return exitHandle.ExitCode
 }

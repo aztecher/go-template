@@ -1,6 +1,7 @@
 package resource
 
 import (
+	"fmt"
 	"github.com/go-template/cli/action-resource/flags"
 )
 
@@ -21,6 +22,15 @@ func (rm *ResourceMap) SearchAndConsumeArgument(args []string) (Resource, []stri
 		}
 	}
 	return nil, args, false
+}
+
+func (rm *ResourceMap) List() string {
+	result := ""
+	for _, ns := range *rm {
+		nsStr := fmt.Sprintf("  %s     %s\n", ns.Name, ns.Name)
+		result = result + nsStr
+	}
+	return result
 }
 
 
@@ -53,6 +63,14 @@ func Resources() ResourceMap {
 }
 
 type Resource interface {
+	// ここが処理の表現力に当たる
+	// このinterfaceがAction interfaceに渡され,
+	// 各action interfaceの実装の表現力の上で、これを利用することになる
+	// action-resourceで関係の保持が必要なので、
+	// その分処理を多重化するためにrequirementが増える
+	// 緩和法は思い浮かばない、interfaceで切り分けして統合するくらいか
+	// TODO: relationを切り分け束ねるinterfaceを作っていくのがいいのかも
 	flags.HasFlags
 	Process()
+	ShowProcess() // こういうのが増える(action-resource relation)
 }

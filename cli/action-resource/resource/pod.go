@@ -12,18 +12,21 @@ func init() {
 
 type pod struct {
 	*flags.FlagCommon
-	name string
 }
 
 func (pod *pod) Register(f *flag.FlagSet) {
 	pod.FlagCommon = flags.NewFlagCommon()
 	pod.FlagCommon.RegisterOnce(func() {
-		// register flag of pod resource
-		fmt.Printf("pod flag register\n")
 	})
 }
 
 func (pod *pod) Process() {
+	// ここでresourceの初期化とか？
+	// Runで必要なものの準備とか
+}
+
+func (pod *pod) ShowProcess() {
+	fmt.Printf("pod process (calling from XXX)\n")
 }
 
 func (pod *pod) Run() {

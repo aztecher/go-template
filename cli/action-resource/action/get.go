@@ -1,7 +1,6 @@
 package action
 
 import (
-	"fmt"
 	"flag"
 	"github.com/go-template/cli/action-resource/flags"
 	"github.com/go-template/cli/action-resource/resource"
@@ -18,8 +17,6 @@ type get struct {
 func (g *get) Register(f *flag.FlagSet) {
 	g.FlagCommon = flags.NewFlagCommon()
 	g.FlagCommon.RegisterOnce(func () {
-		// register flag of get action
-		fmt.Printf("get flag register\n")
 	})
 }
 

@@ -22,8 +22,6 @@ type show struct {
 func (s *show) Register(f *flag.FlagSet) {
 	s.FlagCommon = flags.NewFlagCommon()
 	s.FlagCommon.RegisterOnce(func () {
-		// register flag of show action
-		fmt.Printf("show flag register\n")
 	})
 
 	f.BoolVar(&s.JSON, "j", false, "Output JSON format")
@@ -31,6 +29,13 @@ func (s *show) Register(f *flag.FlagSet) {
 	f.StringVar(&s.Output, "o", "", "Output configuration")
 }
 
-func (s *show) Process(resource *resource.Resource) {
+func (s *show) Process(r *resource.Resource) {
 	// show resource
+	if s.JSON {
+		fmt.Printf("json output!\n")
+		(*r).ShowProcess()
+		return
+	}
+	fmt.Printf("normal output!\n")
+	(*r).ShowProcess()
 }

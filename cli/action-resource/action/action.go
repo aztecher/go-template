@@ -1,6 +1,7 @@
 package action
 
 import (
+	"fmt"
 	"github.com/go-template/cli/action-resource/flags"
 	"github.com/go-template/cli/action-resource/resource"
 )
@@ -22,6 +23,15 @@ func (am *ActionMap) SearchAndConsumeArgument(args []string) (Action, []string, 
 		}
 	}
 	return nil, args, false
+}
+
+func (am *ActionMap) List() string {
+	result := ""
+	for _, na := range *am {
+		nsStr := fmt.Sprintf("  %s     %s\n", na.Name, na.Name)
+		result = result + nsStr
+	}
+	return result
 }
 
 type NamedAction struct {

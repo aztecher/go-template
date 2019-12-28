@@ -10,6 +10,7 @@ type HasFlags interface {
 }
 
 type FlagCommon struct {
+	Help     bool
 	register sync.Once
 }
 
