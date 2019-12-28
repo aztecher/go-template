@@ -7,5 +7,6 @@ import (
 )
 
 func main() {
-	os.Exit(cli.Run(os.Args[1:]))
+	// os.Exit(cli.Run(os.Args[1:]))
+	os.Exit(cli.RunWithEmpty(os.Args[1:]))
 }

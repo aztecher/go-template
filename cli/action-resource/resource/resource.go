@@ -70,6 +70,8 @@ type Resource interface {
 	// その分処理を多重化するためにrequirementが増える
 	// 緩和法は思い浮かばない、interfaceで切り分けして統合するくらいか
 	// TODO: relationを切り分け束ねるinterfaceを作っていくのがいいのかも
+	// TODO: コマンドの性質上、Resource interfaceが多くのProcess関数を
+	//       保持している事自体は特に問題ではない
 	flags.HasFlags
 	Process()
 	ShowProcess() // こういうのが増える(action-resource relation)
